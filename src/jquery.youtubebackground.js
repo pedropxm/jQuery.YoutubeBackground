@@ -5,7 +5,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  *
- * Version:  1.0.1
+ * Version:  1.0.2
  *
  */
 
@@ -20,7 +20,7 @@ if (typeof Object.create !== "function") {
 
 (function($, window, document) {
   var
-    loadAPI = function loadAPI(callback) {
+    loadAPI = function loadAPI(callback) { 
 
       // Load Youtube API
       var tag = document.createElement('script'),
@@ -231,18 +231,20 @@ if (typeof Object.create !== "function") {
         $YTPlayerPlayer = $('#' + self.holderID);
 
       // when screen aspect ratio differs from video, video must center and underlay one dimension
-      if (width / self.options.ratio < height) {
-        pWidth = Math.ceil(height * self.options.ratio); // get new player width
+      if (width <= height) {
+        pWidth = Math.ceil(height * self.options.ratio);
+        pHeight = Math.ceil(width / self.options.ratio);
         $YTPlayerPlayer.width(pWidth).height(height).css({
           left: (width - pWidth) / 2,
           top: 0
-        }); // player width is greater, offset left; reset top
-      } else { // new video width < window width (gap to right)
-        pHeight = Math.ceil(width / self.options.ratio); // get new player height
+        });        
+      }else{
+        pWidth = Math.ceil(height * self.options.ratio);
+        pHeight = Math.ceil(height * self.options.ratio);
         $YTPlayerPlayer.width(width).height(pHeight).css({
           left: 0,
           top: (height - pHeight) / 2
-        }); // player height is greater, offset top; reset left
+        });
       }
 
       $YTPlayerPlayer = null;
